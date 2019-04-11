@@ -1,27 +1,27 @@
-import React from "react"
+import React from 'react'
 import { 
   render, 
   fireEvent, 
   cleanup 
-} from "react-testing-library"
+} from 'react-testing-library'
 import renderer from 'react-test-renderer'; // install this for snapshots?
-import "jest-dom/extend-expect"
+import 'jest-dom/extend-expect'
 
-import Controls from "./Controls"
+import Controls from './Controls'
 
 afterEach(() => { cleanup() });
 
 
 
 describe('<Controls />', () => {
-  it.skip('matches snapshot', () => {
+  it('matches snapshot', () => {
       const tree = renderer.create(<Controls />).toJSON();
       expect(tree).toMatchSnapshot();
   });
 });
 
-describe("Controls", () => {
-  it("when locked, gate button does not call toggleClosed", () => {
+describe('Controls', () => {
+  it('when locked, gate button does not call toggleClosed', () => {
     const toggleClosed = jest.fn()
     const props = {
       locked: true,
@@ -30,10 +30,10 @@ describe("Controls", () => {
       toggleClosed
     }
     const { getByTestId } = render(<Controls {...props} />)
-    fireEvent.click(getByTestId("gateButton"))
+    fireEvent.click(getByTestId('gateButton'))
     expect(toggleClosed).not.toHaveBeenCalled()
   })
-  it("when not locked, gate button does call toggleClosed", () => {
+  it('when not locked, gate button does call toggleClosed', () => {
     const toggleClosed = jest.fn()
     const props = {
       locked: false,
@@ -42,11 +42,11 @@ describe("Controls", () => {
       toggleClosed
     }
     const { getByTestId } = render(<Controls {...props} />)
-    fireEvent.click(getByTestId("gateButton"))
+    fireEvent.click(getByTestId('gateButton'))
     expect(toggleClosed).toHaveBeenCalled()
   })
 
-  it("when closed, does call toggleLocked", () => {
+  it('when closed, does call toggleLocked', () => {
     const toggleLocked = jest.fn()
     const props = {
       locked: false,
@@ -54,10 +54,10 @@ describe("Controls", () => {
       toggleLocked
     }
     const { getByTestId } = render(<Controls {...props} />)
-    fireEvent.click(getByTestId("lockButton"))
+    fireEvent.click(getByTestId('lockButton'))
     expect(toggleLocked).toHaveBeenCalled()
   })
-  it("when open, does not call toggleLocked", () => {
+  it('when open, does not call toggleLocked', () => {
     const toggleLocked = jest.fn()
     const props = {
       locked: false,
@@ -65,7 +65,7 @@ describe("Controls", () => {
       toggleLocked
     }
     const { getByTestId } = render(<Controls {...props} />)
-    fireEvent.click(getByTestId("lockButton"))
+    fireEvent.click(getByTestId('lockButton'))
     expect(toggleLocked).not.toHaveBeenCalled()
   })
 })

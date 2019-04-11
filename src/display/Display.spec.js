@@ -18,7 +18,7 @@ afterEach(() => { cleanup() });
 
 
 describe('<Display />', () => {
-    it.skip('matches snapshot', () => {
+    it('matches snapshot', () => {
         const tree = renderer.create(<Display />).toJSON();
         expect(tree).toMatchSnapshot();
     });
