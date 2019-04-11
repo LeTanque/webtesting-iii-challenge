@@ -1,80 +1,61 @@
 import React from 'react';
+import { toHaveClass } from 'jest-dom';
 import { 
-    // render, 
+    render, 
     // fireEvent, 
     cleanup 
 } from 'react-testing-library';
-import renderer from 'react-test-renderer'; // install this
-import 'react-testing-library/cleanup-after-each'; //add this line to all your tests
+import renderer from 'react-test-renderer'; // install this for snapshots?
+import 'react-testing-library/cleanup-after-each';
 
 import Display from './Display';
 
-afterEach(() => {
-  cleanup();
-  // console.log(document.body.outerHTML);
-});
+
+expect.extend({ toHaveClass });
+
+afterEach(() => { cleanup() });
+
+
 
 describe('<Display />', () => {
-  it.skip('matches snapshot', () => {
-    const tree = renderer.create(<Display />).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
-  // idea for another test
+    it.skip('matches snapshot', () => {
+        const tree = renderer.create(<Display />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
 });
 
-describe('display open or close', () => {
-    it('displays open', () => {
-        
-    })
-})
 
+describe('Display component tests', () => {
+	it('should display component', () => {
+		render(<Display />);
+	});
 
+	it('should display gate unlocked and open by default', () => {
+		const { getByText } = render(<Display />);
+		getByText(/unlocked/i);
+		getByText(/open/i);
+	});
 
+	it('should display Closed if closed props is true', () => {
+		const { getByText } = render(<Display closed={true} />);
+		getByText(/closed/i);
+	});
 
+	it('should display Locked if the locked prop is true', () => {
+		const { getByText } = render(<Display locked={true} />);
+		getByText(/locked/i);
+	});
 
+	it('should have red-led class when locked or closed', () => {
+		const { getByText } = render(<Display locked={true} />);
+		const locked = getByText(/locked/i);
+		expect(locked).toHaveClass('red-led');
+	});
 
+	it('should have green-led class when unlocked or open', () => {
+		const { getByText } = render(<Display locked={false} />);
+		const locked = getByText(/unlocked/i);
+		expect(locked).toHaveClass('green-led');
+	});
+});
 
-
-
-// describe('mocking', () => {
-//   it('is mocking me', () => {
-//     const mock = jest.fn();
-
-//     const result = mock();
-
-//     expect(result).toBeUndefined();
-//     expect(mock).toHaveBeenCalledTimes(1);
-//   });
-
-//   it('controls the mock', () => {
-//     const mock = jest.fn(() => 'hello');
-
-//     const result = mock('smile');
-
-//     expect(result).toBe('hello');
-//     expect(mock).toHaveBeenCalledTimes(1);
-//     expect(mock).toHaveBeenCalledWith('smile');
-//   });
-// });
-
-// describe('<Greeter />', () => {
-//   it('should save when clicking Save button', () => {
-//     const { getByText } = render(<App />);
-
-//     const saveButton = getByText(/save/i);
-//     fireEvent.click(saveButton);
-
-//     getByText(/saving/i);
-//   });
-
-//   it('should save when clicking Save button', () => {
-//     const saveMock = jest.fn();
-//     const { getByText } = render(<Greeter save={saveMock} />);
-
-//     const saveButton = getByText(/save/i);
-//     fireEvent.click(saveButton);
-
-//     expect(saveMock).toHaveBeenCalledTimes(1);
-//   });
-// });

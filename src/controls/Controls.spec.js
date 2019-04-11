@@ -1,10 +1,24 @@
 import React from "react"
-import { render, fireEvent, cleanup } from "react-testing-library"
+import { 
+  render, 
+  fireEvent, 
+  cleanup 
+} from "react-testing-library"
+import renderer from 'react-test-renderer'; // install this for snapshots?
 import "jest-dom/extend-expect"
 
 import Controls from "./Controls"
 
-afterEach(cleanup)
+afterEach(() => { cleanup() });
+
+
+
+describe('<Controls />', () => {
+  it.skip('matches snapshot', () => {
+      const tree = renderer.create(<Controls />).toJSON();
+      expect(tree).toMatchSnapshot();
+  });
+});
 
 describe("Controls", () => {
   it("when locked, gate button does not call toggleClosed", () => {
